@@ -41,6 +41,27 @@ namespace UserInfo.Controllers
       var UserInfo = await _context.UserInfoItems.FindAsync(id);
       return UserInfo;
     }
+    // GET: api/UserInfoItems/{username}/{password}, get user by username and password
+    [HttpGet("{username}/{password}")]
+    public async Task<ActionResult<UserInfoItem>> GetUserLogin(string username, string password)
+    {
+      if (_context.UserInfoItems == null)
+      {
+        return NotFound("null sent");
+      }
+      var userExists = await _context.UserInfoItems.AnyAsync(u => u.username == username);
+      if (userExists == false)
+      {
+        return NotFound("user does not exist");
+      }
+
+      var UserInfo = await _context.UserInfoItems.FirstOrDefaultAsync(u => u.password == password);
+      if (UserInfo?.password != password)
+      {
+        return NotFound("Invalid Password");
+      }
+      return UserInfo;
+    }
     // PUT: api/UserInfoItems/{id} , update user info
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
@@ -80,9 +101,15 @@ namespace UserInfo.Controllers
       var emailExists = await _context.UserInfoItems.AnyAsync(u => u.email == userInfo.email);
       if (emailExists == false)
       {
+        // Find the maximum ID value in the user table
+        var maxId = await _context.UserInfoItems.MaxAsync(u => u.Id);
+
+        // Increment the ID by 1 to get the next available ID
+        userInfo.Id = maxId + 1;
+
         _context.UserInfoItems.Add(userInfo);
         await _context.SaveChangesAsync();
-      return CreatedAtAction(nameof(GetUserById), new { id = userInfo.Id }, userInfo);
+        return CreatedAtAction(nameof(GetUserById), new { id = userInfo.Id }, userInfo);
       }
       return Problem("A user with this email already exists");
     }
@@ -108,4 +135,5 @@ namespace UserInfo.Controllers
     {
       return (_context.UserInfoItems?.Any(e => e.Id == id)).GetValueOrDefault();
     }
-  }}
+  }
+}

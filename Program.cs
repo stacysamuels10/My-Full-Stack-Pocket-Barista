@@ -17,22 +17,27 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddDbContext<UserInfoContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("TrainingSrsConnection")));
 builder.Services.AddDbContext<GrinderContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("TrainingSrsConnection")));
 builder.Services.AddDbContext<BrewerContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("TrainingSrsConnection")));
 builder.Services.AddDbContext<CoffeeBagContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("TrainingSrsConnection")));
 builder.Services.AddDbContext<BrewedCupContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("TrainingSrsConnection")));
+
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("CorsPolicy",
+      builder => builder
+          .WithOrigins("https://localhost:44430")
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials());
+});
 
 builder.Services.AddScoped<UserInfoItemsController>();
 
@@ -50,6 +55,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("CorsPolicy");
+
 
 //user routes
 app.MapControllerRoute(
@@ -99,8 +106,40 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "brewer-delete-by-id",
     pattern: "api/BrewerItems/{id?}");
+//coffee bag routes
+app.MapControllerRoute(
+    name: "coffee-bag-get-all-by-user",
+    pattern: "api/CoffeeBagItems/all/{user_id?}");
+app.MapControllerRoute(
+    name: "coffee-bag-get-by-id",
+    pattern: "api/CoffeeBagItems/{id?}");
+app.MapControllerRoute(
+    name: "coffee-bag-put-update",
+    pattern: "api/CoffeeBagItems/{id?}");
+app.MapControllerRoute(
+    name: "coffee-bag-post-add-new",
+    pattern: "api/CoffeeBagItems");
+app.MapControllerRoute(
+    name: "coffee-bag-delete-by-id",
+    pattern: "api/CoffeeBagItems/{id?}");
+//brewed cup routes
+app.MapControllerRoute(
+    name: "brewed-cup-get-all-by-user",
+    pattern: "api/BrewedCupItems/all/{user_id?}");
+app.MapControllerRoute(
+    name: "brewed-cup-get-by-id",
+    pattern: "api/BrewedCupItems/{id?}");
+app.MapControllerRoute(
+    name: "brewed-cup-put-update",
+    pattern: "api/BrewedCupItems/{id?}");
+app.MapControllerRoute(
+    name: "brewed-cup-post-add-new",
+    pattern: "api/BrewedCupItems");
+app.MapControllerRoute(
+    name: "brewed-cup-delete-by-id",
+    pattern: "api/BrewedCupItems/{id?}");
 
 
-app.MapFallbackToFile("index.html");
+//app.MapFallbackToFile("index.html");
 
 app.Run();

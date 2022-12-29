@@ -1,0 +1,71 @@
+.App {
+  text-align: center;
+}
+.brewGuides {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.brewguidescards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.brewGuides button {
+  height: 100px;
+  width: 100px;
+  background-color: #6b0504;
+}
+
+.past-cup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.past-cup button {
+  height: 40px;
+  width: 40px;
+}
+
+.coffeeOfTheMonth img {
+  height: 120px;
+}
+
+.featuredGuides button {
+  height: 60px;
+  background-color: #6b0504;
+}
+
+.navBar Button {
+  background-color: rgba(251, 255, 254, 1);
+  height: 50px;
+  opacity: 1;
+}
+
+.aeropress {
+  width: 100%;
+}
+
+.brew-guides button {
+  margin-top: 10px;
+}
+
+a:visited {
+  color: #6b0504;
+}
+
+.data-main a {
+  font-size: 25px;
+}
+
+.data-main p {
+  font-size: 20px;
+}
+
+.dropdown {
+  margin-top: 3px;
+}
