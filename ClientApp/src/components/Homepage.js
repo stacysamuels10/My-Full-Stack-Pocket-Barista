@@ -26,6 +26,7 @@ const Homepage = () => {
       <Grid
         container
         spacing={2}
+        className="hero"
         direction="column"
         justifyContent="center"
         alignItems="center"
@@ -40,17 +41,19 @@ const Homepage = () => {
         variant="standard"
         sx={{
           m: 1,
-          minWidth: 120,
+          minWidth: 200,
+          minHeight: 100,
           backgroundColor: "#FBFFFE",
           color: "#001514",
         }}
       >
-        <InputLabel id="demo-simple-select-standard-label">Add</InputLabel>
+        {window.innerWidth > 500 ? (<InputLabel id="demo-select-standard-label">Add New Data</InputLabel>) : (<InputLabel id="demo-select-standard-label">Add</InputLabel>)}
+        
         <Select
           className="dropdown"
           name="add"
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
+          labelId="demo-select-standard-label"
+          id="demo-select-standard"
           label="Add"
           onChange={(e) => {
             window.location.href = e.target.value;

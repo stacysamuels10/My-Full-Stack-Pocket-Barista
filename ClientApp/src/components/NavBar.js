@@ -6,9 +6,8 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 const NavBar = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="navBar">
       <ButtonGroup
-        className="navBar"
         variant="text"
         aria-label="text button group"
       >

@@ -4,44 +4,8 @@ const initialState = {
     brand: "",
     type: "",
   },
-  brewerPantry: [
-    {
-      brewer: {
-        name: "Stagg XF",
-        brand: "Fellow",
-        type: "Fellow Stagg",
-      },
-    },
-    {
-      brewer: {
-        name: "Barista Express",
-        brand: "Breville",
-        type: "Espresso Machine",
-      },
-    },
-    {
-      brewer: {
-        name: "Six Cup Glass Handle CHEMEX",
-        brand: "Chemex",
-        type: "Chemex",
-      },
-    },
-    {
-      brewer: {
-        name: "Aeropress Original",
-        brand: "Aeropress",
-        type: "Aeropress",
-      },
-    },
-    {
-      brewer: {
-        name: "P3",
-        brand: "Espro",
-        type: "French Press",
-      },
-    },
-  ],
-  brewerCounter: 5,
+  brewerPantry: [],
+  brewerCounter: 0,
 };
 
 const brewerReducer = (state = initialState, action) => {

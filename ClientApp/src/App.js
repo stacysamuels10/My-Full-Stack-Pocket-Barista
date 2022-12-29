@@ -35,20 +35,33 @@ import { useDispatch, useSelector } from "react-redux";
 function App()
 {
   const [login, setLogin] = useState(false);
+  const [checkStates, setCheckStates] = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
 
   const isUserLoggedIn = () => {
-    console.log("login", login, "UserLog", UserLog)
     if (UserLog != login) {
       setLogin((prev) => UserLog);
-      console.log("login", login, "UserLog", UserLog)
     }
+  }
+
+  const getAllStates = s
+
+  const loadStates = async () => {
+    const result = await fetch(``)
   }
 
   useEffect(() => {
     isUserLoggedIn();
   }, []);
+
+  useEffect(() => {
+    if (login == true) {
+      if (!checkStates.length) {
+        loadStates();
+      }
+    }
+  }, [checkStates]);
 
   const theme = createTheme({
     status: {
@@ -110,7 +123,15 @@ function App()
             </Routes>
             </div>
             <BottomNavigation>
-              {login ? <NavBar /> : null
+            {login ? <Paper
+              sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}
+              elevation={10}
+            > <NavBar /> </Paper>: null
               }
             </BottomNavigation>
           </BrowserRouter>

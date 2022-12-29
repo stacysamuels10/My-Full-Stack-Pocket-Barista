@@ -23,23 +23,19 @@ const LoginForm = () => {
         password: userInfo.password,
         }),
     });
-  
     const data = await result.json();
     NewUserState(dispatch, data)
-    console.log(data);
     window.location.reload();
   };
   const dispatch = useDispatch();
   const handleLogin = async (dispatch, userInfo, navigate) => {
     const username = userInfo.username;
     const password = userInfo.password;
-    console.log(`https://localhost:7003/api/UserInfoItems/${username}/${password}`)
     const result = await fetch(`https://localhost:7003/api/UserInfoItems/${username}/${password}`, {
       method: "GET",
     });
     const data = await result.json();
     NewUserState(dispatch, data)
-    console.log(data);
     window.location.reload();
   };
   
