@@ -4,13 +4,14 @@ const initialState = {
     email: "",
     username: "",
     password: "",
-    }
+  },
+  loggedBool: false
 };
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_USER":
-      return { ...state, login: { id: action?.payload.id, email: action?.payload.email, username: action?.payload.username, password: action?.payload.password}}
+      return { ...state, login: { id: action?.payload.id, email: action?.payload.email, username: action?.payload.username, password: action?.payload.password }, loggedBool: true}
       case "SET_EMAIL":
         return { ...state, login: { ...state.login, email: action?.payload } };
       case "SET_USERNAME":

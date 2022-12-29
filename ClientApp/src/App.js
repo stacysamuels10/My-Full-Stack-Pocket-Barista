@@ -27,16 +27,28 @@ import Paper from "@mui/material/Paper";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import BottomNavigation from "@mui/material/BottomNavigation";
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 
 import './custom.css';
 import { useDispatch, useSelector } from "react-redux";
 
 function App()
 {
-  const [showLogin, setShowLogin] = useState(true);
+  const [login, setLogin] = useState(false);
+  const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
 
+  const isUserLoggedIn = () => {
+    console.log("login", login, "UserLog", UserLog)
+    if (UserLog != login) {
+      setLogin((prev) => UserLog);
+      console.log("login", login, "UserLog", UserLog)
+    }
+  }
+
+  useEffect(() => {
+    isUserLoggedIn();
+  }, []);
 
   const theme = createTheme({
     status: {
@@ -55,10 +67,10 @@ function App()
   });
     return (
       <ThemeProvider theme={theme}>
-        <div className="App">
           <BrowserRouter>
+            <div className="App">
             <Routes>
-              <Route path="/" element={showLogin ? <LoginForm /> : <Homepage /> }></Route>
+              <Route path="/" element={login ? <Homepage /> : <LoginForm /> }></Route>
               <Route path="*" element={<PageNotFound />}></Route>
               <Route path="/data" element={<Data />}></Route>
               <Route path="/coffee" element={<SavedCoffee />}></Route>
@@ -96,21 +108,12 @@ function App()
               <Route path="/v60guide" element={<V60BrewGuide />}></Route>
               <Route path="/brewguides" element={<BrewGuideMain />}></Route>
             </Routes>
+            </div>
             <BottomNavigation>
-              {showLogin ? null : <Paper
-                sx={{
-                  position: "fixed",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                }}
-                elevation={10}
-              >
-                <NavBar />
-              </Paper>}
+              {login ? <NavBar /> : null
+              }
             </BottomNavigation>
           </BrowserRouter>
-        </div>
       </ThemeProvider>
     );
   }
