@@ -2,6 +2,10 @@ export const NewGrinderState = (dispatch, grinder) => {
   dispatch({ type: "SET_GRINDER", payload: grinder });
 };
 
+export const InitialGrinderState = (dispatch, grinder) => {
+  dispatch({ type: "SET_INITIAL_GRINDER", payload: grinder });
+};
+
 export const setGrinderName = (dispatch, text) => {
   dispatch({ type: "SET_NAME", payload: text });
 };

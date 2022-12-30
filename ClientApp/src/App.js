@@ -28,6 +28,7 @@ import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import React, { Component, useEffect, useState } from 'react';
+import { InitialGrinderState } from './actions/addNewGrinderFunctions';
 
 import './custom.css';
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +36,8 @@ import { useDispatch, useSelector } from "react-redux";
 function App()
 {
   const [login, setLogin] = useState(false);
-  const [checkStates, setCheckStates] = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
+  const checkStates = useSelector((state) => state.coffeeReducer.coffeeCounter);
+  const userId = useSelector((state) => state.loginReducer.login.id);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
 
@@ -45,23 +47,28 @@ function App()
     }
   }
 
-  const getAllStates = s
 
   const loadStates = async () => {
-    const result = await fetch(``)
+    const result = await fetch(`https://localhost:7003/api/GrinderItems/all/${userId}`, {
+      method: "GET",
+    });
+    const data = await result.json();
+    InitialGrinderState(dispatch, data);
+    window.location.reload();
   }
+  useEffect(() => {
+    if (login == true) {
+      if (checkStates == 0) {
+        console.log("hello")
+        loadStates();
+      }
+    }
+  }, [checkStates]);
 
   useEffect(() => {
     isUserLoggedIn();
   }, []);
 
-  useEffect(() => {
-    if (login == true) {
-      if (!checkStates.length) {
-        loadStates();
-      }
-    }
-  }, [checkStates]);
 
   const theme = createTheme({
     status: {
@@ -123,7 +130,7 @@ function App()
             </Routes>
             </div>
             <BottomNavigation>
-            {login ? <Paper
+            {login ? <div><Paper
               sx={{
                 position: "fixed",
                 bottom: 0,
@@ -131,7 +138,7 @@ function App()
                 right: 0,
               }}
               elevation={10}
-            > <NavBar /> </Paper>: null
+            > <NavBar /> </Paper> </div> : null
               }
             </BottomNavigation>
           </BrowserRouter>
