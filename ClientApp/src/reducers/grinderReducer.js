@@ -15,17 +15,17 @@ const grinderReducer = (state = initialState, action) => {
       let addedGrinder = (state.grinderCounter += 1);
       return { ...state, grinderCounter: addedGrinder };
     case "SET_INITIAL_GRINDER":
-      let initialAddedGrinder;
-      for (const grinder of action.payload) {
-        const actionGrinder = {
-          name: grinder.name,
-          brand: grinder.brand
+      let grinderCounter = 0;
+      const grinderPantry = action.payload.map((grinder) => {
+        grinderCounter += 1;
+        return {
+          grinder: {
+            name: grinder.name,
+            brand: grinder.brand
+          }
         }
-        initialAddedGrinder = (state.grinderCounter += 1);
-        initialState.grinderPantry.unshift({ grinder: actionGrinder });
-      }
-        state = initialState;
-      return { ...state, grinderCounter: initialAddedGrinder };
+      });
+      return { ...state, grinderCounter: grinderCounter, grinderPantry: grinderPantry };
     case "SET_NAME":
       return { ...state, grinder: { ...state.grinder, name: action.payload } };
     case "SET_BRAND":

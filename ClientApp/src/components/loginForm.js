@@ -9,9 +9,8 @@ import { Button } from '@mui/material';
 
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.loginReducer.login);
-  const handleSignUp = async (dispatch, userInfo, navigate) => {
+  const handleSignUp = async (dispatch, userInfo) => {
     const result = await fetch("https://localhost:7003/api/UserInfoItems", {
       method: "POST",
       headers: {
@@ -28,7 +27,7 @@ const LoginForm = () => {
     window.location.reload();
   };
   const dispatch = useDispatch();
-  const handleLogin = async (dispatch, userInfo, navigate) => {
+  const handleLogin = async (dispatch, userInfo) => {
     const username = userInfo.username;
     const password = userInfo.password;
     const result = await fetch(`https://localhost:7003/api/UserInfoItems/${username}/${password}`, {
@@ -64,7 +63,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(dispatch, e.target.value)}
           />
         </FormLabel>
-          <Button onClick={() => handleSignUp(dispatch, userInfo, navigate)} >Sign Up</Button>
+          <Button onClick={() => handleSignUp(dispatch, userInfo)} >Sign Up</Button>
         </form>
       </div>
       <div className="login">
@@ -83,7 +82,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(dispatch, e.target.value)}
           />
         </FormLabel>
-          <Button onClick={() => handleLogin(dispatch, userInfo, navigate)} >Log in</Button>
+          <Button onClick={() => handleLogin(dispatch, userInfo)} >Log in</Button>
         </form>
       </div>
     </div>

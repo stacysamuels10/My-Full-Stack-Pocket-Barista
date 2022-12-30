@@ -38,10 +38,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function App()
 {
-  const checkGrinderStates = useSelector((state) => state.grinderReducer.grinderCounter);
-  const checkBrewerStates = useSelector((state) => state.brewerReducer.brewerCounter);
-  const checkCoffeeBagStates = useSelector((state) => state.coffeeReducer.coffeeCounter);
-  const checkBrewedCupState = useSelector((state) => state.brewedCupReducer.cupCounter);
   const userId = useSelector((state) => state.loginReducer.login.id);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
@@ -51,7 +47,6 @@ function App()
       method: "GET",
     });
     const GrinderData = await GrinderResult.json();
-    console.log(GrinderData);
     InitialGrinderState(dispatch, GrinderData);
   }
   const loadBrewerStates = async () => { 
@@ -78,18 +73,10 @@ function App()
 
   useEffect(() => {
     if (UserLog === true) {
-      if (checkGrinderStates === 0) {
-        loadGrinderStates();
-      }
-      if (checkBrewerStates === 0) {
-        loadBrewerStates();
-      }
-      if (checkCoffeeBagStates === 0) {
-        loadCoffeeBagStates();
-      }
-      if (checkBrewedCupState === 0) {
-        loadBrewedCupStates();
-      }
+      loadGrinderStates();
+      loadBrewerStates();
+      loadCoffeeBagStates();
+      loadBrewedCupStates();
     }
   }, []);
 

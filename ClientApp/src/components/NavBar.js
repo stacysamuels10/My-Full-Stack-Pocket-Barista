@@ -11,10 +11,10 @@ const NavBar = () => {
         variant="text"
         aria-label="text button group"
       >
-        <Button onClick={() => navigate("/")}>Home</Button>
+        <Button onClick={() => { navigate("/"); window.location.reload(); }}>Home</Button>
         <Button onClick={() => navigate("/addnewbrew")}>New Brew</Button>
         <Button onClick={() => navigate("/brewguides")}>Guides</Button>
-        <Button onClick={() => navigate("/data")}>Data</Button>
+        <Button onClick={() => navigate("/data", { replace: true })}>Data</Button>
       </ButtonGroup>
     </div>
   );

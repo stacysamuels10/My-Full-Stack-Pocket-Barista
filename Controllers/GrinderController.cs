@@ -96,6 +96,11 @@ namespace Grinder.Controllers
     public async Task<ActionResult<GrinderItem>> AddGrinder(GrinderItem grinderItem)
     {
       var newGrinderItem = new GrinderItem();
+      // Find the maximum ID value in the user table
+      var maxId = await _context.GrinderItems.MaxAsync(u => u.Id);
+
+      // Increment the ID by 1 to get the next available ID
+      grinderItem.Id = maxId + 1;
       newGrinderItem = grinderItem;
       if (_context.GrinderItems == null)
       {
@@ -110,21 +115,21 @@ namespace Grinder.Controllers
       // Verify that the user has permission to update the object
       if (user.Value?.Id != newGrinderItem.User_Id)
       {
-        return Unauthorized();
+        return Unauthorized(user.Value?.Id);
       }
       _context.GrinderItems.Add(newGrinderItem);
       await _context.SaveChangesAsync();
     return CreatedAtAction(nameof(GetGrinderById), new { id = newGrinderItem.Id }, newGrinderItem);
     }
     //DELETE api/GrinderItems/{id} delete a grinder
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteGrinder(int id)
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> DeleteGrinder(string name)
     {
       if (_context.GrinderItems == null)
       {
         return NotFound();
       }
-      var grinderInfo = await _context.GrinderItems.FindAsync(id);
+      var grinderInfo = await _context.GrinderItems.FirstOrDefaultAsync(g => g.Name == name);
       if (grinderInfo == null)
       {
         return NotFound();

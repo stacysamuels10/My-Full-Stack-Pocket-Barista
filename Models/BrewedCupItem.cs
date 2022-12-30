@@ -1,22 +1,23 @@
 ﻿using Newtonsoft.Json;
 using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using UserInfo.Models;
 
 namespace BrewedCup.Models;
 
 public class BrewedCupItem
 {
-  [Required]
+  [Key]
   public int Id { get; set; }
   [ForeignKey("UserInfoItem")]
   public int User_Id { get; set; }
   [ForeignKey("CoffeeBagItem")]
-  public int CoffeeBag_Id { get; set; }
+  public int? Coffee_Id { get; set; }
   [ForeignKey("GrinderItem")]
-  public int Grinder_Id { get; set; }
+  public int? Grinder_Id { get; set; }
   [ForeignKey("BrewerItem")]
-  public int Brewed_Id { get; set; }
+  public int? Brewer_Id { get; set; }
   public string? Grounds_Amount { get; set; }
   public string? Grind_Setting { get; set; }
   public string? Water_Amount { get; set; }

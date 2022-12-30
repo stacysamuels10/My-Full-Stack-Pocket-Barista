@@ -1,13 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using UserInfo.Models;
 
 namespace CoffeeBag.Models;
 
 public class CoffeeBagItem
 {
-  [Required]
+  [Key]
   public int Id { get; set; }
   [ForeignKey("UserInfoItem")]
   public int User_Id { get; set; }

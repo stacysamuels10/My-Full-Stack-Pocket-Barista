@@ -75,7 +75,8 @@ const Homepage = () => {
           >
             <Typography>Most Recent Brews</Typography>
           </AccordionSummary>
-          {cups
+          {cups.length > 0 && (
+            cups
             .filter((cup, index) => index < 5)
             .map((cup, index) => (
               <Card className="past-cup">
@@ -101,7 +102,8 @@ const Homepage = () => {
                   More Info
                 </Button>
               </Card>
-            ))}
+            ))
+            )}
         </Accordion>
       </div>
       <div className="brewHistory">
@@ -113,7 +115,8 @@ const Homepage = () => {
           >
             <Typography>Coffee Pantry</Typography>
           </AccordionSummary>
-          {coffee
+          {coffee.length > 0 && (
+            coffee
             .filter((bag, index) => index < 5)
             .map((bag, index) => (
               <Card className="past-cup">
@@ -138,7 +141,8 @@ const Homepage = () => {
                   More Info
                 </Button>
               </Card>
-            ))}
+            ))
+          )}
         </Accordion>
       </div>
       <div className="brewGuides">

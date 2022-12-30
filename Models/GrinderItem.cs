@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using UserInfo.Models;
 
@@ -7,7 +8,7 @@ namespace Grinder.Models;
 
 public class GrinderItem
 {
-  [Required]
+  [Key]
   public int Id { get; set; }
 
   [ForeignKey("UserInfoItem")]

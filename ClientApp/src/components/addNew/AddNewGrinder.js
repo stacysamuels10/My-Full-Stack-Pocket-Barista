@@ -11,15 +11,33 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-const handleClick = (dispatch, grinder, navigate) => {
-  NewGrinderState(dispatch, grinder);
-  navigate("/");
-};
 
 const AddNewGrinder = () => {
+  const userId = useSelector((state) => state.loginReducer.login.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const grinder = useSelector((state) => state.grinderReducer.grinder);
+
+  const addGrinder = async (dispatch, grinder, navigate, userId) => {
+    console.log(userId, grinder);
+    const result = await fetch("https://localhost:7003/api/GrinderItems", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        User_Id: userId,
+        Name: grinder.name,
+        Brand: grinder.brand,
+        }),
+    });
+    const data = await result.json();
+    console.log(data);
+  NewGrinderState(dispatch, data);
+    navigate("/");
+    window.location.reload();
+};
+
   return (
     <div>
       <Box className="aeropress">
@@ -39,7 +57,7 @@ const AddNewGrinder = () => {
           <Grid item>
             <Button
               variant="contained"
-              onClick={() => handleClick(dispatch, grinder, navigate)}
+              onClick={() => addGrinder(dispatch, grinder, navigate, userId)}
             >
               Save
             </Button>
