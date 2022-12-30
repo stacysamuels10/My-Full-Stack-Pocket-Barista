@@ -10,7 +10,7 @@ public class CoffeeBagItem
   [Required]
   public int Id { get; set; }
   [ForeignKey("UserInfoItem")]
-  public int User_Id { get; }
+  public int User_Id { get; set; }
   public string? Coffee_Name { get; set; }
   public string? Roaster_Name { get; set; }
   public string? Bean_Origin { get; set; }

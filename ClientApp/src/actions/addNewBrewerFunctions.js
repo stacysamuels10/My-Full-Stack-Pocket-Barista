@@ -1,5 +1,9 @@
-export const NewBrewerState = (dispatch, grinder) => {
-  dispatch({ type: "SET_BREWER", payload: grinder });
+export const NewBrewerState = (dispatch, brewer) => {
+  dispatch({ type: "SET_BREWER", payload: brewer });
+};
+
+export const InitialBrewerState = (dispatch, brewer) => {
+  dispatch({ type: "SET_INITIAL_BREWER", payload: brewer });
 };
 
 export const setBrewerName = (dispatch, text) => {

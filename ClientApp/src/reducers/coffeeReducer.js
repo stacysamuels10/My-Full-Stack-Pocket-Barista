@@ -26,6 +26,31 @@ const coffeeReducer = (state = initialState, action) => {
       state = initialState;
       let addedCoffee = (state.coffeeCounter += 1);
       return { ...state, coffeeCounter: addedCoffee };
+    case "SET_INITIAL_COFFEE_BAG":
+      let initialaddedCoffeeBag = coffeeCounter;
+      for (const coffeeBag of action.payload) {
+        const actionCoffeeBag = {
+          about: {
+            name: coffeeBag.name,
+            roaster: coffeeBag.roaster,
+            origin: coffeeBag.origin,
+            rating: coffeeBag.rating,
+          },
+          details: {
+            beanType: coffeeBag.beanType,
+            roastLevel: coffeeBag.roastLevel,
+            beanProcess: coffeeBag.beanProcess,
+            bagAmount: coffeeBag.bagAmount,
+            roastDate: coffeeBag.roastDate,
+          },
+          notes: coffeeBag.notes,
+
+        }
+        initialaddedCoffeeBag += 1;
+        initialState.pastCoffeeBags.unshift({ bagOfCoffee: actionCoffeeBag });
+        state = initialState;
+      }
+      return { ...state, coffeeCounter: initialaddedCoffeeBag };
     case "SET_NAME":
       return {
         ...state,

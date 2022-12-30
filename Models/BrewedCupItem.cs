@@ -10,13 +10,13 @@ public class BrewedCupItem
   [Required]
   public int Id { get; set; }
   [ForeignKey("UserInfoItem")]
-  public int User_Id { get; }
+  public int User_Id { get; set; }
   [ForeignKey("CoffeeBagItem")]
-  public int CoffeeBag_Id { get; }
+  public int CoffeeBag_Id { get; set; }
   [ForeignKey("GrinderItem")]
-  public int Grinder_Id { get; }
+  public int Grinder_Id { get; set; }
   [ForeignKey("BrewerItem")]
-  public int Brewed_Id { get; }
+  public int Brewed_Id { get; set; }
   public string? Grounds_Amount { get; set; }
   public string? Grind_Setting { get; set; }
   public string? Water_Amount { get; set; }

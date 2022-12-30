@@ -15,6 +15,19 @@ const brewerReducer = (state = initialState, action) => {
       state = initialState;
       let addedBrewer = (state.brewerCounter += 1);
       return { ...state, brewerCounter: addedBrewer };
+    case "SET_INITIAL_BREWER":
+      let initialAddedBrewer;
+      for (const brewer of action.payload) {
+        const actionBrewer = {
+          name: brewer.name,
+          brand: brewer.brand,
+          type: brewer.type
+        }
+        initialAddedBrewer = (state.brewerCounter += 1);
+        initialState.brewerPantry.unshift({ brewer: actionBrewer });
+      }
+        state = initialState;
+      return { ...state, brewerCounter: initialAddedBrewer };
     case "SET_BREWER_NAME":
       return { ...state, brewer: { ...state.brewer, name: action.payload } };
     case "SET_BREWER_BRAND":

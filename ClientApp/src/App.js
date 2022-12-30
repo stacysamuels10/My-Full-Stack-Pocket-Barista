@@ -27,46 +27,52 @@ import Paper from "@mui/material/Paper";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import BottomNavigation from "@mui/material/BottomNavigation";
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InitialGrinderState } from './actions/addNewGrinderFunctions';
+import { InitialBrewerState } from './actions/addNewBrewerFunctions';
 
 import './custom.css';
 import { useDispatch, useSelector } from "react-redux";
 
 function App()
 {
-  const [login, setLogin] = useState(false);
-  const checkStates = useSelector((state) => state.coffeeReducer.coffeeCounter);
+  const checkGrinderStates = useSelector((state) => state.grinderReducer.grinderCounter);
+  const checkBrewerStates = useSelector((state) => state.brewerReducer.brewerCounter);
+
   const userId = useSelector((state) => state.loginReducer.login.id);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
 
-  const isUserLoggedIn = () => {
-    if (UserLog != login) {
-      setLogin((prev) => UserLog);
-    }
-  }
-
-
-  const loadStates = async () => {
-    const result = await fetch(`https://localhost:7003/api/GrinderItems/all/${userId}`, {
+  const loadGrinderStates = async () => {
+    const GrinderResult = await fetch(`https://localhost:7003/api/GrinderItems/all/${userId}`, {
       method: "GET",
     });
-    const data = await result.json();
-    InitialGrinderState(dispatch, data);
+    const GrinderData = await GrinderResult.json();
+    console.log(GrinderData);
+    InitialGrinderState(dispatch, GrinderData);
     window.location.reload();
   }
-  useEffect(() => {
-    if (login == true) {
-      if (checkStates == 0) {
-        console.log("hello")
-        loadStates();
-      }
-    }
-  }, [checkStates]);
+  const loadBrewerStates = async () => { 
+    const BrewerResult = await fetch(`https://localhost:7003/api/BrewerItems/all/${userId}`, {
+      method: "GET",
+    });
+    const BrewerData = await BrewerResult.json();
+    InitialBrewerState(dispatch, BrewerData);//need to add state to functions
+    window.location.reload();
+  }
 
   useEffect(() => {
-    isUserLoggedIn();
+    if (UserLog === true) {
+      if (checkGrinderStates === 0) {
+        console.log('hello');
+        loadGrinderStates();
+      }
+      if (checkBrewerStates === 0) {
+        console.log('hello');
+        console.log(checkBrewerStates);
+        loadBrewerStates();
+      }
+    }
   }, []);
 
 
@@ -90,7 +96,7 @@ function App()
           <BrowserRouter>
             <div className="App">
             <Routes>
-              <Route path="/" element={login ? <Homepage /> : <LoginForm /> }></Route>
+              <Route path="/" element={UserLog ? <Homepage /> : <LoginForm /> }></Route>
               <Route path="*" element={<PageNotFound />}></Route>
               <Route path="/data" element={<Data />}></Route>
               <Route path="/coffee" element={<SavedCoffee />}></Route>
@@ -130,7 +136,7 @@ function App()
             </Routes>
             </div>
             <BottomNavigation>
-            {login ? <div><Paper
+            {UserLog ? <div><Paper
               sx={{
                 position: "fixed",
                 bottom: 0,
