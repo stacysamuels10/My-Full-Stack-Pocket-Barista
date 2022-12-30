@@ -30,6 +30,8 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import React, { useEffect, useState } from 'react';
 import { InitialGrinderState } from './actions/addNewGrinderFunctions';
 import { InitialBrewerState } from './actions/addNewBrewerFunctions';
+import { InitialCoffeeState } from './actions/addNewCoffeeFunctions';
+import { InitialBrewedCupState } from './actions/addNewCupFunctions';
 
 import './custom.css';
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +40,8 @@ function App()
 {
   const checkGrinderStates = useSelector((state) => state.grinderReducer.grinderCounter);
   const checkBrewerStates = useSelector((state) => state.brewerReducer.brewerCounter);
-
+  const checkCoffeeBagStates = useSelector((state) => state.coffeeReducer.coffeeCounter);
+  const checkBrewedCupState = useSelector((state) => state.brewedCupReducer.cupCounter);
   const userId = useSelector((state) => state.loginReducer.login.id);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
   const dispatch = useDispatch();
@@ -50,27 +53,42 @@ function App()
     const GrinderData = await GrinderResult.json();
     console.log(GrinderData);
     InitialGrinderState(dispatch, GrinderData);
-    window.location.reload();
   }
   const loadBrewerStates = async () => { 
     const BrewerResult = await fetch(`https://localhost:7003/api/BrewerItems/all/${userId}`, {
       method: "GET",
     });
     const BrewerData = await BrewerResult.json();
-    InitialBrewerState(dispatch, BrewerData);//need to add state to functions
-    window.location.reload();
+    InitialBrewerState(dispatch, BrewerData);
+  }
+  const loadCoffeeBagStates = async () => {
+    const CofeeBagResult = await fetch(`https://localhost:7003/api/CoffeeBagItems/all/${userId}`, {
+      method: "GET",
+    });
+    const CoffeeBagData = await CofeeBagResult.json();
+    InitialCoffeeState(dispatch, CoffeeBagData);
+  }
+  const loadBrewedCupStates = async () => {
+    const BrewedCupResult = await fetch(`https://localhost:7003/api/BrewedCupItems/all/${userId}`, {
+      method: "GET",
+    });
+    const BrewedCupData = await BrewedCupResult.json();
+    InitialBrewedCupState(dispatch, BrewedCupData);
   }
 
   useEffect(() => {
     if (UserLog === true) {
       if (checkGrinderStates === 0) {
-        console.log('hello');
         loadGrinderStates();
       }
       if (checkBrewerStates === 0) {
-        console.log('hello');
-        console.log(checkBrewerStates);
         loadBrewerStates();
+      }
+      if (checkCoffeeBagStates === 0) {
+        loadCoffeeBagStates();
+      }
+      if (checkBrewedCupState === 0) {
+        loadBrewedCupStates();
       }
     }
   }, []);

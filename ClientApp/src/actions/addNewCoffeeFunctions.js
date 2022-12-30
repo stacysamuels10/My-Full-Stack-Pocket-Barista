@@ -2,6 +2,10 @@ export const NewCoffeeState = (dispatch, bagOfCoffee) => {
   dispatch({ type: "SET_COFFEE_BAG", payload: bagOfCoffee });
 };
 
+export const InitialCoffeeState = (dispatch, bagOfCoffee) => {
+  dispatch({ type: "SET_INITIAL_COFFEE_BAG", payload: bagOfCoffee });
+};
+
 export const setName = (dispatch, text) => {
   dispatch({ type: "SET_NAME", payload: text });
 };

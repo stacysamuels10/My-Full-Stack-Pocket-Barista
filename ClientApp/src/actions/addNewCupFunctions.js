@@ -2,6 +2,10 @@ export const NewBrewState = (dispatch, brewedCup) => {
   dispatch({ type: "SET_BREWED_CUP", payload: brewedCup });
 };
 
+export const InitialBrewedCupState = (dispatch, brewedCup) => {
+  dispatch({ type: "SET_INITIAL_BREWED_CUP", payload: brewedCup });
+};
+
 export const setCoffee = (dispatch, text) => {
   dispatch({ type: "SET_CUP_COFFEE_NAME", payload: text });
 };
