@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import InputLabel from "@mui/material/InputLabel";
@@ -19,8 +19,9 @@ import Grid from "@mui/material/Grid";
 
 const Homepage = () => {
   const navigate = useNavigate();
-  //const cups = useSelector((state) => state.brewedCupReducer.pastBrews);
-  //const coffee = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
+  const cups = useSelector((state) => state.brewedCupReducer.pastBrews);
+  const coffee = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
+
   return (
     <div>
       <Grid
@@ -75,35 +76,35 @@ const Homepage = () => {
           >
             <Typography>Most Recent Brews</Typography>
           </AccordionSummary>
-          {/*{cups.length > 0 && (*/}
-          {/*  cups*/}
-          {/*  .filter((cup, index) => index < 5)*/}
-          {/*  .map((cup, index) => (*/}
-          {/*    <Card className="past-cup">*/}
-          {/*      <div className="left-side">*/}
-          {/*        <p>{cup.brewedCup.setup.brewer}</p>*/}
-          {/*        <p>{cup.brewedCup.setup.coffee}</p>*/}
-          {/*      </div>*/}
-          {/*      <div className="right-side">*/}
-          {/*        <p>{cup.brewedCup.brew.waterAmount}</p>*/}
-          {/*        <p>{cup.brewedCup.setup.dateOfBrew}</p>*/}
-          {/*      </div>*/}
-          {/*      <Rating*/}
-          {/*        name="read-only"*/}
-          {/*        value={cup.brewedCup.brew.rating}*/}
-          {/*        readOnly*/}
-          {/*      />*/}
-          {/*      <Button*/}
-          {/*        variant="outlined"*/}
-          {/*        className="moreInfoButton"*/}
-          {/*        disableElevation*/}
-          {/*        onClick={() => navigate(`/cups/${index}`)}*/}
-          {/*      >*/}
-          {/*        More Info*/}
-          {/*      </Button>*/}
-          {/*    </Card>*/}
-          {/*  ))*/}
-          {/*  )}*/}
+          {cups.length > 0 && (
+            cups
+            .filter((cup, index) => index < 5)
+            .map((cup, index) => (
+              <Card className="past-cup">
+                <div className="left-side">
+                  <p>{cup.brewedCup.setup.brewer}</p>
+                  <p>{cup.brewedCup.setup.coffee}</p>
+                </div>
+                <div className="right-side">
+                  <p>{cup.brewedCup.brew.waterAmount} g</p>
+                  <p>{cup.brewedCup.setup.dateOfBrew}</p>
+                </div>
+                <Rating
+                  name="read-only"
+                  value={cup.brewedCup.brew.rating}
+                  readOnly
+                />
+                <Button
+                  variant="outlined"
+                  className="moreInfoButton"
+                  disableElevation
+                  onClick={() => navigate(`/cups/${index}`)}
+                >
+                  More Info
+                </Button>
+              </Card>
+            ))
+            )}
         </Accordion>
       </div>
       <div className="brewHistory">
@@ -115,34 +116,34 @@ const Homepage = () => {
           >
             <Typography>Coffee Pantry</Typography>
           </AccordionSummary>
-          {/*{coffee.length > 0 && (*/}
-          {/*  coffee*/}
-          {/*  .filter((bag, index) => index < 5)*/}
-          {/*  .map((bag, index) => (*/}
-          {/*    <Card className="past-cup">*/}
-          {/*      <div className="left-side">*/}
-          {/*        <p>{bag.bagOfCoffee.bagOfCoffee.about.name}</p>*/}
-          {/*        <p>{bag.bagOfCoffee.about.roaster}</p>*/}
-          {/*      </div>*/}
-          {/*      <div className="right-side">*/}
-          {/*        <p>{bag.bagOfCoffee.details.roastLevel}</p>*/}
-          {/*        <p>{bag.bagOfCoffee.details.beanProcess}</p>*/}
-          {/*      </div>*/}
-          {/*      <Rating*/}
-          {/*        name="read-only"*/}
-          {/*        value={bag.bagOfCoffee.about.rating}*/}
-          {/*        readOnly*/}
-          {/*      />*/}
-          {/*      <Button*/}
-          {/*        variant="outlined"*/}
-          {/*        disableElevation*/}
-          {/*        onClick={() => navigate(`/coffee/${index}`)}*/}
-          {/*      >*/}
-          {/*        More Info*/}
-          {/*      </Button>*/}
-          {/*    </Card>*/}
-          {/*  ))*/}
-          {/*)}*/}
+          {coffee.length > 0 && (
+            coffee
+            .filter((bag, index) => index < 5)
+            .map((bag, index) => (
+              <Card className="past-cup">
+                <div className="left-side">
+                  <p>{bag.bagOfCoffee.about.name}</p>
+                  <p>{bag.bagOfCoffee.about.roaster}</p>
+                </div>
+                <div className="right-side">
+                  <p>{bag.bagOfCoffee.details.roastLevel}</p>
+                  <p>{bag.bagOfCoffee.details.beanProcess}</p>
+                </div>
+                <Rating
+                  name="read-only"
+                  value={bag.bagOfCoffee.about.rating}
+                  readOnly
+                />
+                <Button
+                  variant="outlined"
+                  disableElevation
+                  onClick={() => navigate(`/coffee/${index}`)}
+                >
+                  More Info
+                </Button>
+              </Card>
+            ))
+          )}
         </Accordion>
       </div>
       <div className="brewGuides">

@@ -26,12 +26,12 @@ import {
 
 const AddNewCoffee = () => {
   const userId = useSelector((state) => state.loginReducer.login.id);
-  const setCoffeeStar = (e, newValue) => {
-    setValue(newValue);
-    setCoffeeRating(dispatch, e.target.value);
-  };
-  const [dayValue, setDayValue] = React.useState(dayjs("2022-09-01T21:11:54"));
   const [value, setValue] = React.useState(0);
+  const setCoffeeStar = (dispatch, e) => {
+    setValue((prev) => parseInt(e));
+    setCoffeeRating(dispatch, value);
+  };
+  const [dayValue, setDayValue] = React.useState(dayjs("2023-01-01T21:11:54"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const bagOfCoffee = useSelector((state) => state.coffeeReducer.bagOfCoffee);
@@ -57,6 +57,7 @@ const AddNewCoffee = () => {
       }),
     });
     const data = await result.json();
+    console.log("Data", data);
     NewCoffeeState(dispatch, data);
     navigate("/");
     window.location.reload();
@@ -118,7 +119,7 @@ const AddNewCoffee = () => {
               name="simple-controlled"
               value={value}
               size="large"
-              onChange={(e, newValue) => setCoffeeStar(dispatch, newValue)}
+              onChange={(e) => setCoffeeStar(dispatch, e.target.value)}
             />
           </Grid>{" "}
           <Grid item>
@@ -135,7 +136,7 @@ const AddNewCoffee = () => {
           <Grid item>
             <TextField
               id="filled-basic"
-              label="Roast Type"
+              label="Roast Level"
               variant="filled"
               onChange={(e) => setRoastLevel(dispatch, e.target.value)}
             />{" "}

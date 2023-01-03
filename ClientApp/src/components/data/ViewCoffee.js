@@ -41,7 +41,7 @@ const ViewCoffee = () => {
         </p>
         <p>
           <strong>Bag Size: </strong>
-          {bag.bagOfCoffee.details.bagAmount}
+          {bag.bagOfCoffee.details.bagAmount} oz
         </p>
         <p>
           <strong>Roast Date: </strong>

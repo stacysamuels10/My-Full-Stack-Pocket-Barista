@@ -35,19 +35,19 @@ const ViewCup = () => {
         </p>
         <p>
           <strong>Coffee Grounds Amount: </strong>
-          {cup.brewedCup.brew.groundsAmount}
+          {cup.brewedCup.brew.groundsAmount} g
         </p>
         <p>
           <strong>Water Amount: </strong>
-          {cup.brewedCup.brew.waterAmount}
+          {cup.brewedCup.brew.waterAmount} g
         </p>
         <p>
           <strong>Water Temperature: </strong>
-          {cup.brewedCup.brew.waterTemperature}
+          {cup.brewedCup.brew.waterTemperature} {'\u00b0'}F
         </p>
         <p>
           <strong>Brew Time: </strong>
-          {cup.brewedCup.brew.brewTime}
+          {cup.brewedCup.brew.brewTime} seconds
         </p>
         <p>
           <strong>Notes: </strong>

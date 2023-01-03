@@ -28,30 +28,30 @@ const brewedCupReducer = (state = initialState, action) => {
       let addedCup = (state.cupCounter += 1);
       return { ...state, cupCounter: addedCup };
     case "SET_INITIAL_BREWED_CUP":
-      let brewedCupCounter = 0;
+      let cupCounter = 0;
       const pastBrews = action.payload.map((brewedCup) => {
-        brewedCupCounter += 1;
+        cupCounter += 1;
         return {
           brewedCup: {
             setup: {
               coffee: brewedCup.coffee,
               grinder: brewedCup.grinder,
               brewer: brewedCup.brewer,
-              dateOfBrew: brewedCup.dateOfBrew,
+              dateOfBrew: brewedCup.date_Of_Brew,
             },
             brew: {
-              groundsAmount: brewedCup.groundsAmount,
-              grindSetting: brewedCup.grindSetting,
-              waterAmount: brewedCup.waterAmount,
-              waterTemperature: brewedCup.waterTemperature,
-              brewTime: brewedCup.brewTime,
+              groundsAmount: brewedCup.grounds_Amount,
+              grindSetting: brewedCup.grind_Setting,
+              waterAmount: brewedCup.water_Amount,
+              waterTemperature: brewedCup.water_Temp,
+              brewTime: brewedCup.brew_Time,
               rating: brewedCup.rating,
             },
             notes: brewedCup.notes,
           }
         }
       });
-      return { ...state, pastBrews: pastBrews, brewedCupCounter: brewedCupCounter };
+      return { ...state, cupCounter: cupCounter , pastBrews: pastBrews};
     case "SET_CUP_COFFEE_NAME":
       return {
         ...state,

@@ -30,17 +30,13 @@ import {
   setNotes,
 } from "../../actions/addNewCupFunctions";
 
-const handleClick = (dispatch, brewedCup, navigate) => {
-  NewBrewState(dispatch, brewedCup);
-  navigate("/");
-};
 
 const AddNewCup = () => {
-  const setStar = (e, newValue) => {
-    setValue(newValue);
-    setRating(dispatch, e.target.value);
+  const setStar = (dispatch, e) => {
+    setValue((prev) => parseInt(e));
+    setRating(dispatch, value);
   };
-  const [dayValue, setDayValue] = React.useState(dayjs("2022-09-01T21:11:54"));
+  const [dayValue, setDayValue] = React.useState(dayjs("2023-01-01T21:11:54"));
   const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,6 +44,36 @@ const AddNewCup = () => {
   const grinders = useSelector((state) => state.grinderReducer.grinderPantry);
   const brewers = useSelector((state) => state.brewerReducer.brewerPantry);
   const brewedCup = useSelector((state) => state.brewedCupReducer.brewedCup);
+  const userId = useSelector((state) => state.loginReducer.login.id);
+
+const handleClick = async (dispatch, brewedCup, navigate, userId) => {
+  const result = await fetch("https://localhost:7003/api/BrewedCupItems", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      User_Id: userId,
+      Coffee: brewedCup.setup.coffee,
+      Grinder: brewedCup.setup.grinder,
+      Brewer: brewedCup.setup.brewer,
+      Date_Of_Brew: brewedCup.setup.dateOfBrew,
+      Grounds_Amount: brewedCup.brew.groundsAmount,
+      Grind_Setting: brewedCup.brew.grindSetting,
+      Water_Amount: brewedCup.brew.waterAmount,
+      Water_Temp: brewedCup.brew.waterTemperature,
+      Brew_Time: brewedCup.brew.brewTime,
+      Rating: brewedCup.brew.rating,
+      Notes: brewedCup.notes,
+    }),
+  });
+  const data = await result.json();
+  NewBrewState(dispatch, data);
+  navigate("/");
+  window.location.reload();
+};
+
+
   return (
     <div>
       <Box className="aeropress">
@@ -67,7 +93,7 @@ const AddNewCup = () => {
           <Grid item>
             <Button
               variant="contained"
-              onClick={() => handleClick(dispatch, brewedCup, navigate)}
+              onClick={() => handleClick(dispatch, brewedCup, navigate, userId)}
             >
               Save
             </Button>
@@ -231,7 +257,7 @@ const AddNewCup = () => {
               name="simple-controlled"
               value={value}
               size="large"
-              onChange={(e, newValue) => setStar(e, newValue)}
+              onChange={(e) => setStar(dispatch, e.target.value)}
             />
           </Grid>{" "}
           <Grid item>
