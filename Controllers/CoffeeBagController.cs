@@ -3,6 +3,7 @@ using CoffeeBagItems.Data;
 using Microsoft.AspNetCore.Mvc;
 using UserInfo.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Brewer.Models;
 
 namespace CoffeeBag.Controllers
 {
@@ -97,6 +98,14 @@ namespace CoffeeBag.Controllers
     public async Task<ActionResult<CoffeeBagItem>> AddCoffeeBag(CoffeeBagItem CoffeeBagItem)
     {
       var newCoffeeBagItem = new CoffeeBagItem();
+      var itemsExist = await _context.CoffeeBagItems.AnyAsync();
+      int maxId = 0;
+      if (itemsExist)
+      {
+        maxId = await _context.CoffeeBagItems.MaxAsync(u => u.Id);
+      }
+      // Increment the ID by 1 to get the next available ID
+      CoffeeBagItem.Id = maxId + 1;
       newCoffeeBagItem = CoffeeBagItem;
       if (_context.CoffeeBagItems == null)
       {
@@ -118,14 +127,14 @@ namespace CoffeeBag.Controllers
       return CreatedAtAction(nameof(GetCoffeeBagById), new { id = newCoffeeBagItem.Id }, newCoffeeBagItem);
     }
     //DELETE api/CoffeeBagItems/{id} delete a Coffee Bag
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCoffeeBag(int id)
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> DeleteCoffeeBag(string name)
     {
       if (_context.CoffeeBagItems == null)
       {
         return NotFound();
       }
-      var CoffeeBagInfo = await _context.CoffeeBagItems.FindAsync(id);
+      var CoffeeBagInfo = await _context.CoffeeBagItems.FirstOrDefaultAsync(g => g.Coffee_Name == name);
       if (CoffeeBagInfo == null)
       {
         return NotFound();

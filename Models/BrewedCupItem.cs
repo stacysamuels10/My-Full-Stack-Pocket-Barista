@@ -18,6 +18,7 @@ public class BrewedCupItem
   public int? Grinder_Id { get; set; }
   [ForeignKey("BrewerItem")]
   public int? Brewer_Id { get; set; }
+  public string? Date_Of_Brew { get; set; }
   public string? Grounds_Amount { get; set; }
   public string? Grind_Setting { get; set; }
   public string? Water_Amount { get; set; }

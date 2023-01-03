@@ -40,6 +40,8 @@ function App()
 {
   const userId = useSelector((state) => state.loginReducer.login.id);
   const UserLog = useSelector((state) => state.loginReducer.loggedBool);
+  const cups = useSelector((state) => state.brewedCupReducer.pastBrews);
+  const coffee = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
   const dispatch = useDispatch();
 
   const loadGrinderStates = async () => {

@@ -5,10 +5,26 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import Divider from "@mui/material/Divider";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 const SavedCoffees = () => {
   const navigate = useNavigate();
   const coffee = useSelector((state) => state.coffeeReducer.pastCoffeeBags);
+  const handleDelete = async (name) => {
+    const result = await fetch(`https://localhost:7003/api/CoffeeBagItems/${name}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const status = result.status;
+    if (status === 400) {
+      alert("Grinder cannot be deleted at this time, please try again")
+    } else {
+      window.location.reload();
+    }
+  }
   return (
     <div>
       <h1> Coffee</h1>
@@ -47,7 +63,9 @@ const SavedCoffees = () => {
                   <Button onClick={() => navigate(`/coffee/${index}`, index)}>
                     More Info
                   </Button>
-                  {/* <Button>Delete</Button> */}
+                  <IconButton aria-label="delete" size="large" onClick={() => handleDelete(bag.bagOfCoffee.about.name)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
               <Divider />

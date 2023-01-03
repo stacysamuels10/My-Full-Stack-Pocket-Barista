@@ -4,11 +4,27 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Divider from "@mui/material/Divider";
 
 const SavedCups = () => {
   const navigate = useNavigate();
   const cups = useSelector((state) => state.brewedCupReducer.pastBrews);
+  const handleDelete = async (date) => {
+    const result = await fetch(`https://localhost:7003/api/BrewedCupItems/${date}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const status = result.status;
+    if (status === 400) {
+      alert("Brewed Cup cannot be deleted at this time, please try again")
+    } else {
+      window.location.reload();
+    }
+  }
   return (
     <div>
       <h1>Past Brews</h1>
@@ -44,10 +60,9 @@ const SavedCups = () => {
                     value={cup.brewedCup.brew.rating}
                     readOnly
                   />
-                  <Button onClick={() => navigate(`/cups/${index}`)}>
-                    More Info
-                  </Button>
-                  {/* <Button>Delete Brewer</Button> */}
+                  <IconButton aria-label="delete" size="large" onClick={() => handleDelete(cup.brewedCup.setup.dateOfBrew)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
               <Divider />

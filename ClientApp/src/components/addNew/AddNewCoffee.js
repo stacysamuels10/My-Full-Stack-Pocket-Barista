@@ -24,12 +24,8 @@ import {
   setBagNotes,
 } from "../../actions/addNewCoffeeFunctions";
 
-const handleClick = (dispatch, bagOfCoffee, navigate) => {
-  NewCoffeeState(dispatch, bagOfCoffee);
-  navigate("/");
-};
-
 const AddNewCoffee = () => {
+  const userId = useSelector((state) => state.loginReducer.login.id);
   const setCoffeeStar = (e, newValue) => {
     setValue(newValue);
     setCoffeeRating(dispatch, e.target.value);
@@ -39,6 +35,33 @@ const AddNewCoffee = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const bagOfCoffee = useSelector((state) => state.coffeeReducer.bagOfCoffee);
+
+  const handleClick = async (dispatch, bagOfCoffee, navigate, userId) => {
+    const result = await fetch("https://localhost:7003/api/CoffeeBagItems", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        User_Id: userId,
+        Coffee_Name: bagOfCoffee.about.name,
+        Roaster_Name: bagOfCoffee.about.roaster,
+        Bean_Origin: bagOfCoffee.about.origin,
+        User_Rating: bagOfCoffee.about.rating,
+        Bean_Type: bagOfCoffee.details.beanType,
+        Roast_Level: bagOfCoffee.details.roastLevel,
+        Bean_Process: bagOfCoffee.details.beanProcess,
+        Bag_Size: bagOfCoffee.details.bagAmount,
+        Roast_Date: bagOfCoffee.details.roastDate,
+        notes: bagOfCoffee.notes,
+      }),
+    });
+    const data = await result.json();
+    NewCoffeeState(dispatch, data);
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
     <div>
       <Box className="aeropress">
@@ -58,7 +81,7 @@ const AddNewCoffee = () => {
           <Grid item>
             <Button
               variant="contained"
-              onClick={() => handleClick(dispatch, bagOfCoffee, navigate)}
+              onClick={() => handleClick(dispatch, bagOfCoffee, navigate, userId)}
             >
               Save
             </Button>

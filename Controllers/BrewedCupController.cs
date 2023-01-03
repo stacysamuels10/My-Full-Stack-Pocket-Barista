@@ -97,6 +97,13 @@ namespace BrewedCup.Controllers
     public async Task<ActionResult<BrewedCupItem>> AddBrewedCup(BrewedCupItem BrewedCupItem)
     {
       var newBrewedCupItem = new BrewedCupItem();
+      var itemsExist = await _context.BrewedCupItems.AnyAsync();
+      int maxId = 0;
+      if (itemsExist)
+      {
+        maxId = await _context.BrewedCupItems.MaxAsync(u => u.Id);
+      }
+      BrewedCupItem.Id = maxId + 1;
       newBrewedCupItem = BrewedCupItem;
       if (_context.BrewedCupItems == null)
       {
@@ -118,14 +125,14 @@ namespace BrewedCup.Controllers
       return CreatedAtAction(nameof(GetBrewedCupById), new { id = newBrewedCupItem.Id }, newBrewedCupItem);
     }
     //DELETE api/BrewedCupItems/{id} delete a brewed cup
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteBrewedCup(int id)
+    [HttpDelete("{date}")]
+    public async Task<IActionResult> DeleteBrewedCup(string date)
     {
       if (_context.BrewedCupItems == null)
       {
         return NotFound();
       }
-      var BrewedCupInfo = await _context.BrewedCupItems.FindAsync(id);
+      var BrewedCupInfo = await _context.BrewedCupItems.FirstOrDefaultAsync(g => g.Date_Of_Brew == date);
       if (BrewedCupInfo == null)
       {
         return NotFound();

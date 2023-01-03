@@ -33,17 +33,17 @@ const coffeeReducer = (state = initialState, action) => {
         return {
           bagOfCoffee: {
             about: {
-              name: coffeeBag.about.name,
-              roaster: coffeeBag.about.roaster,
-              origin: coffeeBag.about.origin,
-              rating: coffeeBag.about.rating,
+              name: coffeeBag.coffee_Name,
+              roaster: coffeeBag.roaster_Name,
+              origin: coffeeBag.bean_Origin,
+              rating: coffeeBag.user_Rating,
             },
             details: {
-              beanType: coffeeBag.details.beanType,
-              roastLevel: coffeeBag.details.roastLevel,
-              beanProcess: coffeeBag.details.beanProcess,
-              bagAmount: coffeeBag.details.bagAmount,
-              roastDate: coffeeBag.details.roastDate,
+              beanType: coffeeBag.bean_Type,
+              roastLevel: coffeeBag.roast_Level,
+              beanProcess: coffeeBag.bean_Process,
+              bagAmount: coffeeBag.bag_Size,
+              roastDate: coffeeBag.roast_Date,
             },
             notes: coffeeBag.notes,
           }

@@ -97,8 +97,12 @@ namespace Grinder.Controllers
     {
       var newGrinderItem = new GrinderItem();
       // Find the maximum ID value in the user table
-      var maxId = await _context.GrinderItems.MaxAsync(u => u.Id);
-
+      var itemsExist = await _context.GrinderItems.AnyAsync();
+      int maxId = 0;
+      if (itemsExist)
+      {
+        maxId = await _context.GrinderItems.MaxAsync(u => u.Id);
+      }
       // Increment the ID by 1 to get the next available ID
       grinderItem.Id = maxId + 1;
       newGrinderItem = grinderItem;

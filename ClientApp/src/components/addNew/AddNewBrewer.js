@@ -12,15 +12,31 @@ import {
 } from "../../actions/addNewBrewerFunctions";
 import { useNavigate } from "react-router-dom";
 
-const handleClick = (dispatch, brewer, navigate) => {
-  NewBrewerState(dispatch, brewer);
-  navigate("/");
-};
-
 const AddNewBrewer = () => {
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.loginReducer.login.id);
   const dispatch = useDispatch();
   const brewer = useSelector((state) => state.brewerReducer.brewer);
+
+
+  const handleClick = async (dispatch, brewer, navigate, userId) => {
+    const result = await fetch("https://localhost:7003/api/BrewerItems", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        User_Id: userId,
+        Name: brewer.name,
+        Brand: brewer.brand,
+        Type: brewer.type,
+      }),
+    });
+    const data = await result.json();
+    NewBrewerState(dispatch, data);
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <div>
       <Box className="aeropress">
@@ -40,7 +56,7 @@ const AddNewBrewer = () => {
           <Grid item>
             <Button
               variant="contained"
-              onClick={() => handleClick(dispatch, brewer, navigate)}
+              onClick={() => handleClick(dispatch, brewer, navigate, userId)}
             >
               Save
             </Button>

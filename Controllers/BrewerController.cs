@@ -3,6 +3,7 @@ using BrewerItems.Data;
 using Microsoft.AspNetCore.Mvc;
 using UserInfo.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Grinder.Models;
 
 namespace Brewer.Controllers
 {
@@ -97,6 +98,15 @@ namespace Brewer.Controllers
     public async Task<ActionResult<BrewerItem>> AddBrewer(BrewerItem brewerItem)
     {
       var newBrewerItem = new BrewerItem();
+      // Find the maximum ID value in the user table
+      var itemsExist = await _context.BrewerItems.AnyAsync();
+      int maxId = 0;
+      if (itemsExist)
+      {
+        maxId = await _context.BrewerItems.MaxAsync(u => u.Id);
+      }
+      // Increment the ID by 1 to get the next available ID
+      brewerItem.Id = maxId + 1;
       newBrewerItem = brewerItem;
       if (_context.BrewerItems == null)
       {
@@ -118,14 +128,14 @@ namespace Brewer.Controllers
       return CreatedAtAction(nameof(GetBrewerById), new { id = newBrewerItem.Id }, newBrewerItem);
     }
     //DELETE api/BrewerItems/{id} delete a brewer
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteBrewer(int id)
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> DeleteBrewer(string name)
     {
       if (_context.BrewerItems == null)
       {
         return NotFound();
       }
-      var brewerInfo = await _context.BrewerItems.FindAsync(id);
+      var brewerInfo = await _context.BrewerItems.FirstOrDefaultAsync(g => g.Name == name);
       if (brewerInfo == null)
       {
         return NotFound();

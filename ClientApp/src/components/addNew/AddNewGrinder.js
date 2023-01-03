@@ -19,7 +19,6 @@ const AddNewGrinder = () => {
   const grinder = useSelector((state) => state.grinderReducer.grinder);
 
   const addGrinder = async (dispatch, grinder, navigate, userId) => {
-    console.log(userId, grinder);
     const result = await fetch("https://localhost:7003/api/GrinderItems", {
       method: "POST",
       headers: {
@@ -32,7 +31,6 @@ const AddNewGrinder = () => {
         }),
     });
     const data = await result.json();
-    console.log(data);
   NewGrinderState(dispatch, data);
     navigate("/");
     window.location.reload();
